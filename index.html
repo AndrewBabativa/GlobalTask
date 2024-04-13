@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mover Divs</title>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .container div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    button {
+        padding: 5px 10px;
+    }
+</style>
+</head>
+<body>
+
+<h3>Test Javascript</h3>
+
+<div class="container">
+    <div>
+        <span>Div 1</span>
+    </div>
+    <div>
+        <span>Div 2</span>
+        <button onclick="moveUp(1)">Subir</button>
+    </div>
+    <div>
+        <span>Div 3</span>
+        <button onclick="moveUp(2)">Subir</button>
+    </div>
+</div>
+
+<h3>Validación de string</h3>
+
+<form>
+    <label for="inputText">Ingrese un texto:</label>
+    <input type="text" id="inputText" name="inputText">
+    <button type="submit">Validar</button>
+</form>
+
+<script>
+    function moveUp(index) {
+        const container = document.querySelector('.container');
+        const divs = Array.from(container.querySelectorAll('div'));
+        if (index > 0) {
+            const temp = divs[index];
+            divs[index] = divs[index - 1];
+            divs[index - 1] = temp;
+            container.innerHTML = '';
+            divs.forEach(div => container.appendChild(div));
+        }
+        divs.forEach((div, i) => {
+            const button = div.querySelector('button');
+            button.style.display = (i === 0) ? 'none' : 'block';
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let inputValue = document.getElementById('inputText').value.trim();
+            let isValid = validarTexto(inputValue);
+            if (isValid) {
+                alert('El texto es válido.');
+            } else {
+                alert('El texto no es válido.');
+            }
+        });
+
+        function validarTexto(texto) {
+            // Expresión regular para validar el texto
+            let regex = /^[A-Z][a-zA-Z0-9]*(_[a-zA-Z0-9]+)?$/;
+            // Validar longitud mínima
+            if (texto.length < 5) {
+                return false;
+            }
+            // Validar caracteres especiales
+            if (!regex.test(texto)) {
+                return false;
+            }
+            return true;
+        }
+</script>
+</body>
+</html>
+
+/*
+using System.ComponentModel.DataAnnotations;
+
+public class MiClase
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [StringLength(20, MinimumLength = 1)]
+    [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "El campo solo puede contener letras y números.")]
+    public string MiString { get; set; }
+
+    [Range(1, 20, ErrorMessage = "El valor debe estar entre 1 y 20.")]
+    public int MiInt { get; set; }
+
+    [Required]
+    public int MiIntUnico { get; set; }
+}
+*\
+
